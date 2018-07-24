@@ -1,5 +1,9 @@
 class HomepageController < ApplicationController
 
+	def homepage
+		render json: {message: 'success', result: result}
+	end
+
 	def home
 		images = params[:images]
 		audios = params[:audios]
