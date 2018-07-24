@@ -1,0 +1,43 @@
+version: '3'
+services:
+  db:
+    image: library/mysql:5.6.22
+    environment:
+      MYSQL_ROOT_PASSWORD: Quick
+      MYSQL_DATABASE: signsecure_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Quick  
+  web: 
+    build: . 
+    command: bundle exec rails s -p 8000 -b '0.0.0.0' -e development
+    #command: bundle exec rails s -p 8000 -b 192.168.1.3 -e development
+    #command: bundle exec rails s -e development
+    #command: bundle exec rails s -b 'ssl://0.0.0.0:8000?key=../../cert_key/localhost.key&cert=../../cert_key/localhost.crt' -e development
+    #command: bundle exec rails s -b 'ssl://0.0.0.0:8000?key=lib/assets/cert_key/localhost.key&cert=lib/assets/cert_key/localhost.crt' -e production
+    #command: bundle exec rails s -b 'ssl://0.0.0.0:8000?key=lib/assets/cert_key/localhost.key&cert=lib/assets/cert_key/localhost.crt' -e development
+    #command: bundle exec rails s -b 'ssl://192.168.0.96:8000?key=lib/assets/cert_key/localhost.key&cert=lib/assets/cert_key/localhost.crt' -e development
+    volumes: 
+      - .:/smart_contracts
+    # - shared_vol:/smart_contracts/test_tomcat
+    #  - log_vol:/smart_contracts/log
+    ports:
+      - "8000:8000"
+    # extra_hosts:
+    #  - "localhost:192.168.1.3"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+    env_file:
+      - .env #Need to set this to gitignore
+    userns_mode: "host"
+    # networks:
+    #   static-network:
+    #     ipv4_address: 172.21.0.3
+    # "userns-remap": "default"
+
+# networks:
+#   static-network:
+#     ipam:
+#       config:
+#         - subnet: 172.21.0.0/16
