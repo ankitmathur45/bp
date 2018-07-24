@@ -1,7 +1,7 @@
 class HomepageController < ApplicationController
 
 	def homepage
-		render json: {message: 'success', result: result}
+		render json: {message: 'success'}
 	end
 
 	def home
